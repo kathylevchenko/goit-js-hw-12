@@ -3,10 +3,10 @@ import "izitoast/dist/css/iziToast.min.css";
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
-const galleryList = document.querySelector(".gallery");
+export const galleryList = document.querySelector(".gallery");
 
-export function renderImages(data) {
-  if (data.length == 0) {
+export function renderImages(images) {
+  if (images.length == 0) {
     iziToast.error({
       message: `Sorry, there are no images matching your search query. Please, try again!`,
       theme: 'dark',
@@ -15,7 +15,7 @@ export function renderImages(data) {
       position: 'topRight',
     });
   } else {
-    const galleryMarkup = data.map((photo) => {
+    const galleryMarkup = images.map((photo) => {
         return `<li class="photo-list-item">
         <a class="photos-list-link" href="${photo.largeImageURL}">
         <img class="photo" src="${photo.webformatURL}" alt="${photo.tags}"/>
@@ -31,20 +31,21 @@ export function renderImages(data) {
         .join("");
     
     galleryList.insertAdjacentHTML('beforeend', galleryMarkup);
-
+  }
+  lightbox.refresh();
+}
     const lightbox = new SimpleLightbox('.gallery a', {
         captionsData: 'alt',
         captionDelay: 250,
     });
 
     lightbox.refresh();
-  }
+
+export function endMessage() {
+  iziToast.error({
+      title:"We're sorry, but you've reached the end of search results.",
+      message: message,
+      position: "topRight",
+      backgroundColor: 'lightblue',
+  });
 }
-
-
-
-
-
-
-
-
